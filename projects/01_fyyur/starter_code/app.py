@@ -124,10 +124,10 @@ def show_venue(venue_id):
     # shows the venue page with the given venue_id
     # TODO: replace with real venue data from the venues table, using venue_id
     data = db.Query.filter_by(id=venue_id)
-    
+
     data1 = {
         "id": data.id,
-        "name": data.name,#"The Musical Hop",
+        "name": data.name,  # "The Musical Hop",
         "genres": ["Jazz", "Reggae", "Swing", "Classical", "Folk"],
         "address": "1015 Folsom Street",
         "city": "San Francisco",
@@ -238,22 +238,24 @@ def create_venue_submission():
     website_link = request.form.get("website_link")
     seeking_artist = request.form.get("seeking_artist")
     seeking_description = request.form.get("seeking_description")
-
+    genres = request.form.get("genres")
     data = Venue(
         name=name,
         city=city,
         state=state,
         address=address,
         phone=phone,
-        image_link = image_link,
+        image_link=image_link,
         facebook_link=facebook_link,
         website_link=website_link,
         seeking_artist=seeking_artist,
         seeking_description=seeking_description,
+        genres=genres,
     )
     try:
         db.session.add(data)
         db.session.commit()
+        flash("Venue " + request.form["name"] + " was successfully listed!")
     except:
         db.session.rollback()
         flash("An error occurred. Venue " + data.name + " could not be listed.")
@@ -261,7 +263,6 @@ def create_venue_submission():
         db.session.close()
 
     # on successful db insert, flash success
-    flash("Venue " + request.form["name"] + " was successfully listed!")
     # TODO: on unsuccessful db insert, flash an error instead.
     # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
     # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
