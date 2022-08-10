@@ -124,20 +124,21 @@ def show_venue(venue_id):
     # shows the venue page with the given venue_id
     # TODO: replace with real venue data from the venues table, using venue_id
     data = db.Query.filter_by(id=venue_id)
-
+    genres = data.genres.split(",")
     data1 = {
         "id": data.id,
         "name": data.name,  # "The Musical Hop",
-        "genres": ["Jazz", "Reggae", "Swing", "Classical", "Folk"],
-        "address": "1015 Folsom Street",
-        "city": "San Francisco",
-        "state": "CA",
-        "phone": "123-123-1234",
-        "website": "https://www.themusicalhop.com",
-        "facebook_link": "https://www.facebook.com/TheMusicalHop",
-        "seeking_talent": True,
-        "seeking_description": "We are on the lookout for a local artist to play every two weeks. Please call us.",
-        "image_link": "https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
+        "genres": genres,#["Jazz", "Reggae", "Swing", "Classical", "Folk"],
+        "address": data.address,# "1015 Folsom Street",
+        "city": data.city,
+        "state": data.city,
+        "phone": data.phone,
+        "website": data.website_link,#"https://www.themusicalhop.com",
+        "facebook_link": data.facebook_link,#"https://www.facebook.com/TheMusicalHop",
+        "seeking_talent": data.seeking_artist,
+        "seeking_description": data.seeking_description,#"We are on the lookout for a local artist to play every two weeks. Please call us.",
+        "image_link": data.image_link,#"https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
+        #TODO implement -----------------
         "past_shows": [
             {
                 "artist_id": 4,
@@ -489,7 +490,7 @@ def create_artist_submission():
     # called upon submitting the new artist listing form
     # TODO: insert form data as a new Venue record in the db, instead
     # TODO: modify data to be the data object returned from db insertion
-
+    
     # on successful db insert, flash success
     flash("Artist " + request.form["name"] + " was successfully listed!")
     # TODO: on unsuccessful db insert, flash an error instead.
