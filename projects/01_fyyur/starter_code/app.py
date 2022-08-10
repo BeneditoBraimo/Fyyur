@@ -28,6 +28,8 @@ app.config.from_object("config")
 # TODO: connect to a local postgresql database
 app.config["SQLALCHEMY_DATABASE_URI"] = config.SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+migrate = Migrate(app, db)
 # ----------------------------------------------------------------------------#
 # Filters.
 # ----------------------------------------------------------------------------#
