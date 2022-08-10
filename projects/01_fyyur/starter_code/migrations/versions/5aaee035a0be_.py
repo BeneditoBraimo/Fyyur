@@ -21,6 +21,7 @@ def upgrade():
     op.alter_column('venues', 'genres',
                existing_type=sa.VARCHAR(),
                nullable=False)
+    op.execute("UPDATE venues SET genres = 'Others' WHERE genres IS NULL;")
     # ### end Alembic commands ###
 
 
