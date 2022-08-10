@@ -2,6 +2,7 @@
 # Imports
 # ----------------------------------------------------------------------------#
 
+from email.mime import image
 import json
 import sys
 import dateutil.parser
@@ -16,6 +17,7 @@ from flask_wtf import Form
 from forms import *
 import config
 from models import Artist, Venue, shows, db, app
+
 # ----------------------------------------------------------------------------#
 # App Config.
 # ----------------------------------------------------------------------------#
@@ -222,24 +224,35 @@ def create_venue_form():
 def create_venue_submission():
     # TODO: insert form data as a new Venue record in the db, instead
     # TODO: modify data to be the data object returned from db insertion
-    name = request.form.get('name')
-    city = request.form.get('city')
-    state = request.form.get('state')
-    address = request.form.get('address')
-    phone = request.form.get('phone')
-    image_link = request.form.get('image_link')
-    facebook_link = request.form.get('facebook_link')
-    website_link = request.form.get('website_link')
-    seeking_artist = request.form.get('seeking_artist')
-    seeking_description = request.form.get('seeking_description')
+    name = request.form.get("name")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    address = request.form.get("address")
+    phone = request.form.get("phone")
+    image_link = request.form.get("image_link")
+    facebook_link = request.form.get("facebook_link")
+    website_link = request.form.get("website_link")
+    seeking_artist = request.form.get("seeking_artist")
+    seeking_description = request.form.get("seeking_description")
 
-    data = Venue(name=name, city=city, state=state, address=address, phone=phone, facebook_link=facebook_link, website_link=website_link, seeking_artist=seeking_artist, seeking_description=seeking_description)
+    data = Venue(
+        name=name,
+        city=city,
+        state=state,
+        address=address,
+        phone=phone,
+        image_link = image_link,
+        facebook_link=facebook_link,
+        website_link=website_link,
+        seeking_artist=seeking_artist,
+        seeking_description=seeking_description,
+    )
     try:
         db.session.add(data)
         db.session.commit()
     except:
         db.session.rollback()
-        flash('An error occurred. Venue ' + data.name + ' could not be listed.')
+        flash("An error occurred. Venue " + data.name + " could not be listed.")
     finally:
         db.session.close()
 
