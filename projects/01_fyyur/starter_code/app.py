@@ -3,6 +3,7 @@
 # ----------------------------------------------------------------------------#
 
 import json
+import sys
 import dateutil.parser
 import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for
@@ -59,6 +60,7 @@ def index():
 def venues():
     # TODO: replace with real venues data.
     #       num_upcoming_shows should be aggregated based on number of upcoming shows per venue.
+    db.session.query.all()
     data = [
         {
             "city": "San Francisco",
@@ -220,6 +222,26 @@ def create_venue_form():
 def create_venue_submission():
     # TODO: insert form data as a new Venue record in the db, instead
     # TODO: modify data to be the data object returned from db insertion
+    name = request.form.get('name')
+    city = request.form.get('city')
+    state = request.form.get('state')
+    address = request.form.get('address')
+    phone = request.form.get('phone')
+    image_link = request.form.get('image_link')
+    facebook_link = request.form.get('facebook_link')
+    website_link = request.form.get('website_link')
+    seeking_talent = request.form.get('seeking_talent')
+    seeking_description = request.form.get('seeking_description')
+
+    data = Venue(name=name, city=city, state=state, address=address, phone=phone, facebook_link=facebook_link, website_link=website_link, seeking_talent=seeking_talent, seeking_description=seeking_description)
+    try:
+        db.session.add(data)
+        db.session.commit()
+    except:
+        db.session.rollback()
+        flash('An error occurred. Venue ' + data.name + ' could not be listed.')
+    finally:
+        db.session.close()
 
     # on successful db insert, flash success
     flash("Venue " + request.form["name"] + " was successfully listed!")
