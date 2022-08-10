@@ -5,10 +5,13 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
-
+import config
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+
 shows = db.Table(
     "shows",
     db.Column('artist_id',db.Integer, db.ForeignKey("artists.id"), primary_key=True),

@@ -230,10 +230,10 @@ def create_venue_submission():
     image_link = request.form.get('image_link')
     facebook_link = request.form.get('facebook_link')
     website_link = request.form.get('website_link')
-    seeking_talent = request.form.get('seeking_talent')
+    seeking_artist = request.form.get('seeking_artist')
     seeking_description = request.form.get('seeking_description')
 
-    data = Venue(name=name, city=city, state=state, address=address, phone=phone, facebook_link=facebook_link, website_link=website_link, seeking_talent=seeking_talent, seeking_description=seeking_description)
+    data = Venue(name=name, city=city, state=state, address=address, phone=phone, facebook_link=facebook_link, website_link=website_link, seeking_artist=seeking_artist, seeking_description=seeking_description)
     try:
         db.session.add(data)
         db.session.commit()
