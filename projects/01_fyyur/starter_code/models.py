@@ -25,10 +25,10 @@ class Venue(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    genres = db.Column(db.String, nullable=False)
     city = db.Column(db.String(120), nullable=True)
     state = db.Column(db.String(120), nullable=False)
     address = db.Column(db.String(120), nullable=False)
+    genres = db.Column(db.String(), nullable=False)
     phone = db.Column(db.String(120), nullable=False)
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
