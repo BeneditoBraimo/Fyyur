@@ -240,7 +240,7 @@ def create_venue_submission():
     seeking_description = request.form.get("seeking_description")
     genres = request.form.get("genres")
 
-    if seeking_artist == 'y':
+    if seeking_artist == "y":
         seeking_artist = True
     else:
         seeking_artist = False
@@ -507,8 +507,8 @@ def create_artist_submission():
     seeking_description = request.form.get("seeking_description")
 
     # somehow, the form returns a String from "seeking venue" field
-    # this checks if the string returned is 'y' and assigns the seeking_artist to "True" 
-    if seeking_venue == 'y':
+    # this checks if the string returned is 'y' and assigns the seeking_artist to "True"
+    if seeking_venue == "y":
         seeking_venue = True
     else:
         seeking_venue = False
