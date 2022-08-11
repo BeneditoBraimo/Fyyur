@@ -239,6 +239,11 @@ def create_venue_submission():
     seeking_artist = request.form.get("seeking_artist")
     seeking_description = request.form.get("seeking_description")
     genres = request.form.get("genres")
+
+    if seeking_artist == 'y':
+        seeking_artist = True
+    else:
+        seeking_artist = False
     data = Venue(
         name=name,
         city=city,
