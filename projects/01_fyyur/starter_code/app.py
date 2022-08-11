@@ -505,6 +505,9 @@ def create_artist_submission():
     website_link = request.form.get("website_link")
     seeking_venue = request.form.get("seeking_venue")
     seeking_description = request.form.get("seeking_description")
+
+    # somehow, the form returns a String from "seeking venue" field
+    # this checks if the string returned is 'y' and assigns the seeking_artist to "True" 
     if seeking_venue == 'y':
         seeking_venue = True
     else:
