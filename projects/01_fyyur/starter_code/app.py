@@ -2,6 +2,7 @@
 # Imports
 # ----------------------------------------------------------------------------#
 
+from asyncio.windows_events import NULL
 from email.mime import image
 import json
 import sys
@@ -603,10 +604,28 @@ def create_show_submission():
     # called to create new shows in the db, upon submitting new show listing form
     # TODO: insert form data as a new Show record in the db, instead
 
-    # on successful db insert, flash success
-    flash("Show was successfully listed!")
-    # TODO: on unsuccessful db insert, flash an error instead.
-    # e.g., flash('An error occurred. Show could not be listed.')
+    artist_id = request.form.get("artist_id")
+    venue_id = request.form.get("venue_id")
+    start_time = request.form.get("start_time")
+
+    # verify if the provided venue id and artist id are stored in the database
+    art = Artist.query.get(id=artist_id)
+    v = Venue.query.get(id=venue_id)
+    start_time = format_datetime(start_time)
+    try:
+        if v.id == venue_id and art.id == artist_id:
+            show = shows(venue_id, artist_id, start_time)
+            db.session.add(show)
+            db.session.commit()
+            flash("Show was successfully listed!")
+        else:
+            flash("The artist id and/or the Venue id do not exist!")
+    except:
+        db.session.rollback()
+        flash('An error occurred. Show could not be listed.')
+    finally:
+        db.session.close()
+
     # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
     return render_template("pages/home.html")
 
