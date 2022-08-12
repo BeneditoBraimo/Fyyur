@@ -1,6 +1,8 @@
 #-----------------------------------------------------------------
 # imports
 #----------------------------------------------------------------
+from datetime import datetime
+from email.policy import default
 from flask import Flask
 from flask_migrate import Migrate
 from flask_moment import Moment
@@ -16,8 +18,7 @@ shows = db.Table(
     "shows",
     db.Column('artist_id',db.Integer, db.ForeignKey("artists.id"), primary_key=True),
     db.Column('venue_id', db.Integer, db.ForeignKey("venues.id"), primary_key=True),
-    db.Column('date', db.Date, nullable=False),
-    db.Column('Starting_Time', db.DateTime, nullable=False),
+    db.Column('Starting_Time', db.DateTime, nullable=False, default=datetime.now()),
 
 )
 class Venue(db.Model):

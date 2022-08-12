@@ -604,12 +604,13 @@ def create_show_submission():
     artist_id = request.form.get("artist_id")
     venue_id = request.form.get("venue_id")
     start_time = request.form.get("start_time")
-
+    start_time = format_datetime(start_time)
+    # format start_time attribute
     try:
         show = shows.insert().values(
             artist_id = artist_id,
             venue_id = venue_id,
-            start_time = start_time
+            start_time = start_time,
         )
         db.session.execute(show)
         db.session.commit()
