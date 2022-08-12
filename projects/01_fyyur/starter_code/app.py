@@ -1,9 +1,6 @@
 # ----------------------------------------------------------------------------#
 # Imports
-# ----------------------------------------------------------------------------#
-
-from asyncio.windows_events import NULL
-from email.mime import image
+# -------------------------------------------------------------------------
 import json
 import sys
 import dateutil.parser
@@ -608,21 +605,18 @@ def create_show_submission():
     venue_id = request.form.get("venue_id")
     start_time = request.form.get("start_time")
 
-    # verify if the provided venue id and artist id are stored in the database
-    art = Artist.query.get(id=artist_id)
-    v = Venue.query.get(id=venue_id)
-    start_time = format_datetime(start_time)
     try:
-        if v.id == venue_id and art.id == artist_id:
-            show = shows(venue_id, artist_id, start_time)
-            db.session.add(show)
-            db.session.commit()
-            flash("Show was successfully listed!")
-        else:
-            flash("The artist id and/or the Venue id do not exist!")
+        show = shows.insert().values(
+            artist_id = artist_id,
+            venue_id = venue_id,
+            start_time = start_time
+        )
+        db.session.execute(show)
+        db.session.commit()
+        flash("Show was successfully listed!")
     except:
         db.session.rollback()
-        flash('An error occurred. Show could not be listed.')
+        flash("An error occurred. Show could not be listed.")
     finally:
         db.session.close()
 
