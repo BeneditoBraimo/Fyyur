@@ -3,10 +3,12 @@
 #----------------------------------------------------------------
 from datetime import datetime
 from email.policy import default
+from time import timezone
 from flask import Flask
 from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
 import config
 app = Flask(__name__)
 
@@ -18,8 +20,7 @@ shows = db.Table(
     "shows",
     db.Column('artist_id',db.Integer, db.ForeignKey("artists.id"), primary_key=True),
     db.Column('venue_id', db.Integer, db.ForeignKey("venues.id"), primary_key=True),
-    db.Column('Starting_Time', db.DateTime, nullable=False, default=datetime.now()),
-
+    db.Column('starting_time',db.DateTime(timezone=True), default=datetime.utcnow)
 )
 class Venue(db.Model):
     __tablename__ = "venues"
