@@ -14,7 +14,7 @@ from logging import Formatter, FileHandler
 from flask_wtf import Form
 from forms import *
 import config
-from models import Artist, Venue, shows, db, app
+from models import Artist, Venue, db, app
 
 # ----------------------------------------------------------------------------#
 # App Config.
@@ -601,25 +601,6 @@ def create_show_submission():
     # called to create new shows in the db, upon submitting new show listing form
     # TODO: insert form data as a new Show record in the db, instead
 
-    artist_id = request.form.get("artist_id")
-    venue_id = request.form.get("venue_id")
-    start_time = request.form.get("start_time")
-    start_time = format_datetime(start_time)
-    # format start_time attribute
-    try:
-        show = shows.insert().values(
-            artist_id = artist_id,
-            venue_id = venue_id,
-            start_time = start_time,
-        )
-        db.session.execute(show)
-        db.session.commit()
-        flash("Show was successfully listed!")
-    except:
-        db.session.rollback()
-        flash("An error occurred. Show could not be listed.")
-    finally:
-        db.session.close()
 
     # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
     return render_template("pages/home.html")

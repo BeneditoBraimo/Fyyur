@@ -16,12 +16,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-shows = db.Table(
-    "shows",
-    db.Column('artist_id',db.Integer, db.ForeignKey("artists.id"), primary_key=True),
-    db.Column('venue_id', db.Integer, db.ForeignKey("venues.id"), primary_key=True),
-    db.Column('starting_time',db.DateTime(timezone=True), default=datetime.utcnow)
-)
 class Venue(db.Model):
     __tablename__ = "venues"
 
@@ -35,8 +29,7 @@ class Venue(db.Model):
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
     website_link = db.Column(db.String(120))
-    seeking_artist = db.Column(db.Boolean, nullable=False, default=False)
-    seeking_description = db.Column(db.String(150))
+    
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 
@@ -52,10 +45,7 @@ class Artist(db.Model):
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
     website_link = db.Column(db.String(150))
-    seeking_venue = db.Column(db.Boolean, nullable=False, default=False)
-    seeking_description = db.Column(db.String(200))
-    venues = db.relationship ('Artist', secondary=shows, backref=db.backref('venues', lazy=True))
-
+    
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 
