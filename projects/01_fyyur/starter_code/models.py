@@ -62,7 +62,7 @@ class Artist(db.Model):
 class Show(db.Model):
     __tablename__ = "shows"
     id = db.Column(db.Integer, primary_key=True)
-    starting_time = db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
+    start_time = db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
     artist_id = db.Column(db.Integer, db.ForeignKey("artists.id"), nullable=False)
     venue_id = db.Column(db.Integer, db.ForeignKey("venues.id"), nullable=False)
 
