@@ -53,6 +53,6 @@ class Show(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     starting_time = db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
     artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'), nullable=False)
-    venue_id = db.Column(db.Integer, db.ForeignKey('venue_id'), nullable=False)
+    venue_id = db.Column(db.Integer, db.ForeignKey('venues.id'), nullable=False)
 
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
