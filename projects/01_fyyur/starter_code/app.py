@@ -601,9 +601,21 @@ def create_show_submission():
     # called to create new shows in the db, upon submitting new show listing form
     # TODO: insert form data as a new Show record in the db, instead
 
-    artist_id = request.form.get('artist_id')
-    venue_id = request.form.get('venue_id')
-    start_time = request.form.get('start_time')
+    artist_id = request.form.get("artist_id")
+    venue_id = request.form.get("venue_id")
+    start_time = request.form.get("start_time")
+    start_time = dateutil.parser.parse(start_time)
+
+    show = Show(artist_id=artist_id, venue_id=venue_id, start_time=start_time)
+    try:
+        db.session.add(show)
+        db.session.commit()
+        flash("Show created successfull!")
+    except:
+        db.session.rollback()
+        flash("Show could not be created")
+    finally:
+        db.session.close()
     # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
     return render_template("pages/home.html")
 
