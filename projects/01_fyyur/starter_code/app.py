@@ -120,7 +120,7 @@ def search_venues():
 def show_venue(venue_id):
     # shows the venue page with the given venue_id
     # TODO: replace with real venue data from the venues table, using venue_id
-    data = Venue.query.get(id=venue_id).all()
+    data = Venue.query.filter(Venue.id ==venue_id).first()
     genres = data.genres.split(",")
     data1 = {
         "id": data.id,
