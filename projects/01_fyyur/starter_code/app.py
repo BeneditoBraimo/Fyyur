@@ -2,10 +2,11 @@
 # Imports
 # -------------------------------------------------------------------------
 import json
+from socket import SHUT_WR
 import sys
 import dateutil.parser
 import babel
-from flask import Flask, render_template, request, Response, flash, redirect, url_for
+from flask import Flask, render_template, request, Response, flash, redirect, url_for, session
 from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
@@ -332,7 +333,17 @@ def search_artists():
 def show_artist(artist_id):
     # shows the artist page with the given artist_id
     # TODO: replace with real artist data from the artist table, using artist_id
-    data = Artist.query.filter(Artist.id == artist_id).first()
+    artist_data = Artist.query.filter(Artist.id == artist_id).first()
+    if artist_data:
+        data = Artist.artist_info(artist_data)
+        system_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        new_shows = Show.query.filter(Show.artist_id == artist_id).join(Artist).filter(Show.start_time > system_time).all()
+        new_shows_data = list(map(Show.venue_info, new_shows))
+        data["upcoming_shows"] = new_shows_data
+        data["upcoming_shows_count"] = len(new_shows_data)
+        past_shows = Show.query.filter(Show.artist_id == artist_id).join(Artist).filter(Show.start_time <= system_time).all()
+        past_shows_data = list(map(Show.venue_info, past_shows))
+        data["past_shows_count"] = len(past_shows_data)
     return render_template("pages/show_artist.html", artist=data)
 
 
