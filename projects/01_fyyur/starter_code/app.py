@@ -278,7 +278,8 @@ def delete_venue(venue_id):
     # TODO: Complete this endpoint for taking a venue_id, and using
     # SQLAlchemy ORM to delete a record. Handle cases where the session commit could fail.
     try:
-        db.Query.get(id=venue_id).delete()
+        venue_to_remove = Venue.query.filter(Venue.id==venue_id).all()
+        db.session.delete(venue_to_remove)
         db.session.commit()
     except:
         db.session.rollback()
@@ -294,20 +295,7 @@ def delete_venue(venue_id):
 @app.route("/artists")
 def artists():
     # TODO: replace with real data returned from querying the database
-    data = [
-        {
-            "id": 4,
-            "name": "Guns N Petals",
-        },
-        {
-            "id": 5,
-            "name": "Matt Quevedo",
-        },
-        {
-            "id": 6,
-            "name": "The Wild Sax Band",
-        },
-    ]
+    data = Artist.query.all()
     return render_template("pages/artists.html", artists=data)
 
 
