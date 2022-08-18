@@ -36,6 +36,22 @@ class Venue(db.Model):
     shows = db.relationship(
         "Show", backref="venues", lazy=True, cascade="all, delete-orphan"
     )
+
+    def venue_details(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "city": self.city,
+            "state": self.state,
+            "address": self.address,
+            "genres": self.genres,
+            "phone": self.phone,
+            "image_link": self.image_link,
+            "facebook_link": self.facebook_link,
+            "website_link": self.website_link,
+            "seeking_artist": self.seeking_artist,
+            "seeking_description": self.seeking_description,
+        }
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 
