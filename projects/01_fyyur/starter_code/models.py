@@ -60,17 +60,17 @@ class Artist(db.Model):
 
     def artist_info(self):
         return{
-            'id': self.id,
-            'name': self.name,
-            'city': self.city,
+            "id": self.id,
+            "name": self.name,
+            "city": self.city,
             'state':self.state,
-            'phone': self.phone,
-            'genres': self.genres,
-            'image_link': self.image_link,
-            'facebook_link': self.facebook_link,
-            'website_link': self.website_link,
-            'seeking_venue': self.seeking_venue,
-            'seeking_description': self.seeking_description,
+            "phone": self.phone,
+            "genres": self.genres,
+            "image_link": self.image_link,
+            "facebook_link": self.facebook_link,
+            "website_link": self.website_link,
+            "seeking_venue": self.seeking_venue,
+            "seeking_description": self.seeking_description,
 
         }
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
@@ -82,6 +82,14 @@ class Show(db.Model):
     start_time = db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
     artist_id = db.Column(db.Integer, db.ForeignKey("artists.id"), nullable=False)
     venue_id = db.Column(db.Integer, db.ForeignKey("venues.id"), nullable=False)
+
+    def show_details(self):
+        return {
+            "id": self.id,
+            "start_time": self.start_time,
+            "artist_id": self.artist_id,
+            "venue_id": self.venue_id,
+            }
 
 
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
