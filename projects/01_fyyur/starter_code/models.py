@@ -56,6 +56,23 @@ class Artist(db.Model):
     shows = db.relationship(
         "Show", backref="artists", lazy=True, cascade="all, delete-orphan"
     )
+
+
+    def artist_info(self):
+        return{
+            'id': self.id,
+            'name': self.name,
+            'city': self.city,
+            'state':self.state,
+            'phone': self.phone,
+            'genres': self.genres,
+            'image_link': self.image_link,
+            'facebook_link': self.facebook_link,
+            'website_link': self.website_link,
+            'seeking_venue': self.seeking_venue,
+            'seeking_description': self.seeking_description,
+
+        }
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 
