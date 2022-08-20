@@ -72,37 +72,31 @@ def index():
 def venues():
     # TODO: replace with real venues data.
     #       num_upcoming_shows should be aggregated based on number of upcoming shows per venue.
-    system_current_time = datetime.now().strftime("%Y-%m-%d %H:%S:%M")
-    venues_data = Venue.query.group_by(Venue.id, Venue.state, Venue.city).all()
-    venue_by_state_and_city = ""
-    data = []
-
-    # discover information about upcoming shows, city, states and venues
-    for venue in venues_data:
-        upcoming_shows = Show.query.filter(Show.start_time > system_current_time).all()
-        if venue_by_state_and_city == venue.city + venue.state:
-            data[len(data) - 1]["venues"].append(
-                {
-                    "id": venue.id,
-                    "name": venue.name,
-                    "num_upcoming_shows": len(upcoming_shows),
-                }
-            )
+     current_time = datetime.now().strftime('%Y-%m-%d %H:%S:%M')
+     venues = Venue.query.group_by(Venue.id, Venue.state, Venue.city).all()
+     venue_state_and_city = ''
+     data = []
+     #check for upcoming shows, city, states and venue information
+     for venue in venues:
+        upcoming_shows = Show.query.filter(Show.start_time > current_time).all()
+        if venue_state_and_city == venue.city + venue.state:
+            data[len(data) - 1]["venues"].append({
+                "id": venue.id,
+                "name":venue.name,
+                "num_upcoming_shows": len(upcoming_shows)
+                })
         else:
-            #venue_by_state_and_city == venue.city + venue.state
-            data.append(
-                {
-                    "city": venue.city,
-                    "state": venue.state,
-                    "venues": [
-                        {
-                            "id": venue.id,
-                            "name": venue.name,
-                            "num_upcoming_shows": len(upcoming_shows),
-                        }
-                    ],
-                }
-            )
+            venue_state_and_city == venue.city + venue.state
+            data.append({
+                "city":venue.city,
+                "state":venue.state,
+                "venues": [{
+                    "id": venue.id,
+                    "name":venue.name,
+                    "num_upcoming_shows": len(upcoming_shows)
+                }]
+            })
+    
 
         return render_template("pages/venues.html", areas=data)
 
