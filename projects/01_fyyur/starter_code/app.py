@@ -89,7 +89,7 @@ def venues():
                 }
             )
         else:
-            venue_by_state_and_city == venue.city + venue.state
+            #venue_by_state_and_city == venue.city + venue.state
             data.append(
                 {
                     "city": venue.city,
