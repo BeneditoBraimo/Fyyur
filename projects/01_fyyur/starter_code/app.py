@@ -438,6 +438,7 @@ def shows():
             "venue_id": venue.id,
             "venue_name": venue.name,
             "artist_id": artist.id,
+            "artist_name": artist.name,
             "artist_image_link": artist.image_link,
             "start_time": str(show.start_time), 
         })
