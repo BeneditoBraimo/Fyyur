@@ -150,14 +150,14 @@ def create_venue_submission():
     image_link = request.form.get("image_link")
     facebook_link = request.form.get("facebook_link")
     website_link = request.form.get("website_link")
-    seeking_artist = request.form.get("seeking_artist")
+    seeking_talent = request.form.get("seeking_artist")
     seeking_description = request.form.get("seeking_description")
     genres = request.form.get("genres")
 
-    if seeking_artist == "y":
-        seeking_artist = True
+    if seeking_talent == "y":
+        seeking_talent = True
     else:
-        seeking_artist = False
+        seeking_talent = False
     data = Venue(
         name=name,
         city=city,
@@ -167,7 +167,7 @@ def create_venue_submission():
         image_link=image_link,
         facebook_link=facebook_link,
         website_link=website_link,
-        seeking_artist=seeking_artist,
+        seeking_talent=seeking_artist,
         seeking_description=seeking_description,
         genres=genres,
     )
