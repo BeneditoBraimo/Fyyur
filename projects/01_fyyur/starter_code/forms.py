@@ -96,6 +96,11 @@ class ShowForm(Form):
 
 
 class VenueForm(Form):
+
+    def validate_link(form, field):
+        if not field.data.contains("facebook.com"):
+            raise ValidationError("Invalid facebook link")
+            
     def validate_phone_num(form, field):
         if not re.search(r"\d{3}[-]\d{3}[-]\d{4}$", field.data):
             raise ValidationError("Invalid phone number")
@@ -121,7 +126,7 @@ class VenueForm(Form):
 
 class ArtistForm(Form):
     def validate_link(form, field):
-        if not field.contains("facebook.com"):
+        if not field.data.contains("facebook.com"):
             raise ValidationError("Invalid facebook link")
     #funtion to validate phone number 
 
