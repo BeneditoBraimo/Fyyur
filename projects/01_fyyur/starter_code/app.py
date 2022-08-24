@@ -76,7 +76,7 @@ def venues():
     # get the current system time and format
     system_time = datetime.now().strftime("%Y-%m-%d %H:%S:%M")
     venues_data = Venue.query.all()
-    locations = ""
+    venue_id = None
     data = []
 
     for venue_location in venues_data:
@@ -86,7 +86,8 @@ def venues():
             .filter(Show.venue_id == Venue.id)
             .all()
         )
-        if locations == venue_location.city + venue_location.state:
+        # check if a venue is already added to data list
+        if venue_id == venue_location.id:
             data[len(data) - 1]["venues"].append(
                 {
                     "id": venues_data.id,
@@ -95,7 +96,8 @@ def venues():
                 }
             )
         else:
-            locations == venue_location.city + venue_location.state
+            # save the id
+            venue_id == venue_location.city
             data.append(
                 {
                     "city": venue_location.city,
