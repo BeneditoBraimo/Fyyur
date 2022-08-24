@@ -52,6 +52,7 @@ class Venue(db.Model):
             "seeking_artist": self.seeking_artist,
             "seeking_description": self.seeking_description,
         }
+
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 
@@ -73,13 +74,12 @@ class Artist(db.Model):
         "Show", backref="artists", lazy=True, cascade="all, delete-orphan"
     )
 
-
     def artist_info(self):
-        return{
+        return {
             "id": self.id,
             "name": self.name,
             "city": self.city,
-            'state':self.state,
+            "state": self.state,
             "phone": self.phone,
             "genres": self.genres,
             "image_link": self.image_link,
@@ -87,8 +87,8 @@ class Artist(db.Model):
             "website_link": self.website_link,
             "seeking_venue": self.seeking_venue,
             "seeking_description": self.seeking_description,
+        }
 
-        }   
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 
@@ -105,33 +105,32 @@ class Show(db.Model):
             "start_time": self.start_time,
             "artist_id": self.artist_id,
             "venue_id": self.venue_id,
-            }
+        }
 
     def artist_info(self):
-        return{
-            'artist_id' :self.venue_id,
-            'artist_name' :self.Artist.name,
-            'artist_image_link' :self.Artist.image_link,
-            'start_time' :self.start_time,
-
+        return {
+            "artist_id": self.venue_id,
+            "artist_name": self.Artist.name,
+            "artist_image_link": self.Artist.image_link,
+            "start_time": self.start_time,
         }
- 
+
     def show_info(self):
-            return{
-            'venue_id' :self.venue_id,
-            'venue_name' :self.Venue.name,
-            'artist_id' :self.artist_id,
-            'artist_name' :self.Artist.name,
-            'artist_image_link' :self.Artist.image_link,
-            'start_time' :self.start_time,
-            }
+        return {
+            "venue_id": self.venue_id,
+            "venue_name": self.Venue.name,
+            "artist_id": self.artist_id,
+            "artist_name": self.Artist.name,
+            "artist_image_link": self.Artist.image_link,
+            "start_time": self.start_time,
+        }
+
     def venue_info(self):
-        return{
-            'venue_id' :self.venue_id,
+        return {
+            "venue_id": self.venue_id,
             #'venue_name' :self.Venue.name,
             #'venue_image_link' :self.Venue.image_link,
-            'start_time' :self.start_time,
-            
+            "start_time": self.start_time,
         }
 
 
