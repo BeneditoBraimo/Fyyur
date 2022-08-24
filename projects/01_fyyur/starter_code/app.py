@@ -72,33 +72,45 @@ def index():
 def venues():
     # TODO: replace with real venues data.
     #       num_upcoming_shows should be aggregated based on number of upcoming shows per venue.
-     current_time = datetime.now().strftime('%Y-%m-%d %H:%S:%M')
-     venues = Venue.query.group_by(Venue.id, Venue.state, Venue.city).all()
-     venue_state_and_city = ''
-     data = []
-     #check for upcoming shows, city, states and venue information
-     for venue in venues:
-        upcoming_shows = Show.query.filter(Show.start_time > current_time).all()
-        if venue_state_and_city == venue.city + venue.state:
-            data[len(data) - 1]["venues"].append({
-                "id": venue.id,
-                "name":venue.name,
-                "num_upcoming_shows": len(upcoming_shows)
-                })
-        else:
-            venue_state_and_city == venue.city + venue.state
-            data.append({
-                "city":venue.city,
-                "state":venue.state,
-                "venues": [{
-                    "id": venue.id,
-                    "name":venue.name,
-                    "num_upcoming_shows": len(upcoming_shows)
-                }]
-            })
-    
 
-        return render_template("pages/venues.html", areas=data)
+    # get the current system time and format
+    system_time = datetime.now().strftime("%Y-%m-%d %H:%S:%M")
+    venues_data = Venue.query.all()
+    locations = ""
+    data = []
+
+    for venue_location in venues_data:
+        # filter the upcoming shows per venue
+        upcoming_shows = (
+            Show.query.filter(Show.start_time > system_time)
+            .filter(Show.venue_id == Venue.id)
+            .all()
+        )
+        if locations == venue_location.city + venue_location.state:
+            data[len(data) - 1]["venues"].append(
+                {
+                    "id": venues_data.id,
+                    "name": venue_location.name,
+                    "num_upcoming_shows": len(upcoming_shows),
+                }
+            )
+        else:
+            locations == venue_location.city + venue_location.state
+            data.append(
+                {
+                    "city": venue_location.city,
+                    "state": venue_location.state,
+                    "venues": [
+                        {
+                            "id": venue_location.id,
+                            "name": venue_location.name,
+                            "num_upcoming_shows": len(upcoming_shows),
+                        }
+                    ],
+                }
+            )
+
+    return render_template("pages/venues.html", areas=data)
 
 
 @app.route("/venues/search", methods=["POST"])
@@ -107,11 +119,10 @@ def search_venues():
     # seach for Hop should return "The Musical Hop".
     # search for "Music" should return "The Musical Hop" and "Park Square Live Music & Coffee"
     search_key = request.form.get("search_term")
-    venue_data = Venue.query.filter(Venue.name.ilike('%' + search_key + '%')).all()
-    #venue_list = list(map(Venue.shows, venue_data)) 
+    venue_data = Venue.query.filter(Venue.name.ilike("%" + search_key + "%")).all()
     response = {
-    "count":len(venue_data),
-    "data": venue_data,
+        "count": len(venue_data),
+        "data": venue_data,
     }
     return render_template(
         "pages/search_venues.html",
@@ -123,7 +134,6 @@ def search_venues():
 @app.route("/venues/<int:venue_id>")
 def show_venue(venue_id):
     # shows the venue page with the given venue_id
-    # TODO: replace with real venue data from the venues table, using venue_id
     data = Venue.query.filter(Venue.id == venue_id).first()
     return render_template("pages/show_venue.html", venue=data)
 
@@ -434,14 +444,16 @@ def shows():
     for show in shows_data:
         venue = Venue.query.filter(Venue.id == show.venue_id).first()
         artist = Artist.query.filter(Artist.id == show.artist_id).first()
-        data.append({
-            "venue_id": venue.id,
-            "venue_name": venue.name,
-            "artist_id": artist.id,
-            "artist_name": artist.name,
-            "artist_image_link": artist.image_link,
-            "start_time": str(show.start_time), 
-        })
+        data.append(
+            {
+                "venue_id": venue.id,
+                "venue_name": venue.name,
+                "artist_id": artist.id,
+                "artist_name": artist.name,
+                "artist_image_link": artist.image_link,
+                "start_time": str(show.start_time),
+            }
+        )
     return render_template("pages/shows.html", shows=data)
 
 
