@@ -96,11 +96,10 @@ class ShowForm(Form):
 
 
 class VenueForm(Form):
-
     def validate_link(form, field):
         if not field.data.contains("facebook.com"):
             raise ValidationError("Invalid facebook link")
-            
+
     def validate_phone_num(form, field):
         if not re.search(r"\d{3}[-]\d{3}[-]\d{4}$", field.data):
             raise ValidationError("Invalid phone number")
@@ -128,7 +127,8 @@ class ArtistForm(Form):
     def validate_link(form, field):
         if not field.data.contains("facebook.com"):
             raise ValidationError("Invalid facebook link")
-    #funtion to validate phone number 
+
+    # funtion to validate phone number
 
     def validate_phone_num(form, field):
         if not re.search(r"\d{3}[-]\d{3}[-]\d{4}$", field.data):
@@ -136,20 +136,14 @@ class ArtistForm(Form):
 
     name = StringField("name", validators=[DataRequired()])
     city = StringField("city", validators=[DataRequired()])
-    state = SelectField(
-        "state",
-        validators=[DataRequired()],
-        choices= states_choices
-    )
+    state = SelectField("state", validators=[DataRequired()], choices=states_choices)
     phone = StringField(
         "phone",
         validators=[validate_phone_num],
     )
     image_link = StringField("image_link")
     genres = SelectMultipleField(
-        "genres",
-        validators=[DataRequired()],
-        choices=genres_choices
+        "genres", validators=[DataRequired()], choices=genres_choices
     )
     facebook_link = StringField(
         "facebook_link",
